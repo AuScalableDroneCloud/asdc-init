@@ -10,7 +10,6 @@ nginx/nginx-ssl.conf.template
 package.json
 requirements.txt
 app/models/task.py
-app/static/app/js/components/TaskListItem.jsx
 "
 
 #Default is to assume reference WebODM install and asdc-init dir both same dir
@@ -20,8 +19,10 @@ BASEPATH=$(pwd)
 WEBODMPATH=$(pwd)/WebODM
 cd -
 
-echo "ON DEV PC"
 cd $BASEPATH/asdc-init/patch/
+#Remove current patch files
+rm -rf files
+mkdir files
 for f in ./$FILELIST
 do
   DIR="$(dirname "${f}")"
