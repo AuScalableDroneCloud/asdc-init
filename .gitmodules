@@ -1,0 +1,3 @@
+[submodule "plugins/asdc"]
+	path = plugins/asdc
+	url = https://github.com/auscalabledronecloud/asdc_plugin/
