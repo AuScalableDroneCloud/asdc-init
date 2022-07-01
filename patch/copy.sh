@@ -13,8 +13,9 @@ app/models/task.py
 app/static/app/js/components/TaskListItem.jsx
 "
 
-#Default is to assume reference WebODM install and asdc-init dir both in parent dir
-cd ..
+#Default is to assume reference WebODM install and asdc-init dir both same dir
+#and script is run from patch subdir
+cd ../..
 BASEPATH=$(pwd)
 WEBODMPATH=$(pwd)/WebODM
 cd -
