@@ -3,9 +3,6 @@
 # files from this repository ./patch/files
 
 #Default asdc-init and DronesVL dir both in parent dir
-cd ..
-BASEPATH=$(pwd)
-cd -
 
 function exec_k8s()
 {
@@ -22,7 +19,10 @@ do
 done
 }
 
-source $BASEPATH/DronesVL/settings.env
+export ASDC_DEV=1
+cd ../../DronesVL
+source settings.env
+cd -
 
 #To install patch, kill and restart main processes in pod...
 #echo "Kill celery"
