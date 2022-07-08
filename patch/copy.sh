@@ -11,6 +11,7 @@ nginx/nginx.conf.template
 package.json
 requirements.txt
 app/models/task.py
+app/static/app/js/components/NewTaskPanel.jsx
 "
 
 #Default is to assume reference WebODM install and asdc-init dir both same dir
