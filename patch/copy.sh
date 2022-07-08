@@ -7,6 +7,7 @@
 #Files to copy from local WebODM
 FILELIST="
 nginx/nginx-ssl.conf.template
+nginx/nginx.conf.template
 package.json
 requirements.txt
 app/models/task.py
