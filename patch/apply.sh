@@ -25,7 +25,7 @@ function exec_k8s()
 #INSTALL PATCHED FILES IN POD
 echo "ON WEBAPP"
 cd /webodm/app/media/patch/
-for f in /webodm/app/media/patch/*
+for f in /webodm/app/media/patch/files/*
 do
   echo "Installing patch file: $f..."
   cp "$f" "/webodm/$f"
