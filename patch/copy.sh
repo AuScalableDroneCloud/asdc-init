@@ -8,6 +8,7 @@
 FILELIST="
 nginx/nginx-ssl.conf.template
 nginx/nginx.conf.template
+nginx/proxy.conf
 package.json
 requirements.txt
 app/models/task.py
