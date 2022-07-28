@@ -124,7 +124,7 @@ def pull_image(image, task_folder, done=None):
                 with open(fp, 'wb') as fd:
                     for chunk in download_stream.iter_content(4096):
                         fd.write(chunk)
-                #Return the downoad dest path
+                #Return the download dest path
                 retval = fp
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
                 logger.warning(f"Error downloading image {filename} from {uploadURL}")
@@ -735,13 +735,19 @@ class Task(models.Model):
                     #Check for urls remaining in image paths
                     if any("https:" in image for image in images):
                         logger.warning("URL FOUND IN IMAGES! - reprocessing from pull")
+                        for image in images:
+                            if "https:" in image:
+                                logger.warning(f" - Problem image entry: {image}")
+
                         self.pending_action = pending_actions.PULL
                         return self.process()
 
                     #FAILSAFE: ensure all images files now exist, discard any missing
-                    logger.info("{} Images ".format(len(images)))
+                    i1 = len(images)
                     images = [image for image in images if os.path.exists(image)]
-                    logger.info("{} Images 2".format(len(images)))
+                    i2 = len(images)
+                    if i2 < i1:
+                        logger.warning(f"Some images not found! uploaded: {i1} > found: {i2}}!")
 
                     # Track upload progress, but limit the number of DB updates
                     # to every 2 seconds (and always record the 100% progress)
