@@ -19,7 +19,6 @@ do
 done
 }
 
-export ASDC_DEV=1
 cd ../../DronesVL
 source settings.env
 cd -
