@@ -101,6 +101,13 @@ def pull_image(image, task_folder, done=None):
         logger.info("Pulling image, name: {}".format(image.image.name))
         uploadURL, filename = image.image.name.rsplit('#', 1)
 
+        # Check if url is invalid and reconstruct
+        if uploadURL[0:4] != "http":
+            domain = os.environ.get('WO_HOST')
+            ufn = uploadURL.rsplit('/', 1)[1]
+            uploadURL = f"https://tusd.{domain}/files/{ufn}"
+            logger.info(f"- rebuilt source url: {uploadURL}")
+
         logger.info("- orig filename {} source url {} ".format(filename, uploadURL))
         #Download from upload server if doesn't exist
         fp = os.path.join(task_folder, filename)
@@ -176,15 +183,15 @@ def resize_image(image_path, resize_to, done=None):
         resized_width = int(width * ratio)
         resized_height = int(height * ratio)
 
-        im = im.resize((resized_width, resized_height), Image.BILINEAR)
+        im = im.resize((resized_width, resized_height), Image.LANCZOS)
         params = {}
         if is_jpeg:
             params['quality'] = 100
 
         if 'exif' in im.info:
             exif_dict = piexif.load(im.info['exif'])
-            exif_dict['Exif'][piexif.ExifIFD.PixelXDimension] = resized_width
-            exif_dict['Exif'][piexif.ExifIFD.PixelYDimension] = resized_height
+            #exif_dict['Exif'][piexif.ExifIFD.PixelXDimension] = resized_width
+            #exif_dict['Exif'][piexif.ExifIFD.PixelYDimension] = resized_height
             im.save(resized_image_path, exif=piexif.dump(exif_dict), **params)
         else:
             im.save(resized_image_path, **params)
@@ -720,7 +727,7 @@ class Task(models.Model):
                     images = [image.path() for image in self.imageupload_set.all()]
 
                     #Check for urls remaining in image paths
-                    if any("https://" in image for image in images):
+                    if any("https:" in image for image in images):
                         logger.warning("URL FOUND IN IMAGES! - reprocessing from pull")
                         self.pending_action = pending_actions.PULL
                         return self.process()
