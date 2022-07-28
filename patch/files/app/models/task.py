@@ -89,30 +89,36 @@ def pull_image(image, task_folder, done=None):
     retval = image.path()
     try:
         if not os.path.exists(task_folder):
-            logger.warning("Project folder {} for task doesn't exist, this doesn't look right, so we will not retrieve any files.".format(task_folder))
+            logger.warning(f"Project folder {task_folder} for task doesn't exist, this doesn't look right, so we will not retrieve any files.")
             return []
-        logger.info("Found task folder {}".format(task_folder))
+        logger.info(f"Found task folder {task_folder}")
 
         import io
         import json
         image_list = []
 
         #Stored as upload URL instead of local path with original filename after #
-        logger.info("Pulling image, name: {}".format(image.image.name))
-        uploadURL, filename = image.image.name.rsplit('#', 1)
+        fp = image.image.name
+        logger.info(f"Pulling image, name: {fp}")
+        if '#' in fp:
+            uploadURL, filename = fp.rsplit('#', 1)
 
-        # Check if url is invalid and reconstruct
-        if uploadURL[0:4] != "http":
-            domain = os.environ.get('WO_HOST')
-            ufn = uploadURL.rsplit('/', 1)[1]
-            uploadURL = f"https://tusd.{domain}/files/{ufn}"
-            logger.info(f"- rebuilt source url: {uploadURL}")
+            # Check if url is invalid and reconstruct
+            if uploadURL[0:4] != "http":
+                domain = os.environ.get('WO_HOST')
+                ufn = uploadURL.rsplit('/', 1)[1]
+                uploadURL = f"https://tusd.{domain}/files/{ufn}"
+                logger.info(f"- rebuilt source url: {uploadURL}")
 
-        logger.info("- orig filename {} source url {} ".format(filename, uploadURL))
-        #Download from upload server if doesn't exist
-        fp = os.path.join(task_folder, filename)
+            logger.info(f"- orig filename {filename} source url {uploadURL} ")
+            #Download from upload server if doesn't exist
+            fp = os.path.join(task_folder, filename)
+        else:
+            #No url, just a pathname that should already exist
+            uploadURL = ""
+
         if not os.path.exists(fp):
-            logger.info("- downloading to {}".format(fp))
+            logger.info(f"- downloading to {fp}")
             try:
                 download_stream = requests.get(uploadURL, stream=True, timeout=60)
                 with open(fp, 'wb') as fd:
@@ -121,10 +127,10 @@ def pull_image(image, task_folder, done=None):
                 #Return the downoad dest path
                 retval = fp
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-                logger.warning("Error downloading image {} from {}".format(filename, uploadURL))
+                logger.warning(f"Error downloading image {filename} from {uploadURL}")
 
     except Exception  as e:
-        logger.warning("Failed to pull image for task. We're going to proceed anyway, but you might experience issues: {}".format(e))
+        logger.warning(f"Failed to pull image for task. We're going to proceed anyway, but you might experience issues: {e}")
 
     if done is not None:
         done(retval)
