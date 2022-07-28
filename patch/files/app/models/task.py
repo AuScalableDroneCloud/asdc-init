@@ -128,6 +128,9 @@ def pull_image(image, task_folder, done=None):
                 retval = fp
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
                 logger.warning(f"Error downloading image {filename} from {uploadURL}")
+        else:
+            #Return the recomputed path in case the original was malformed
+            retval = fp
 
     except Exception  as e:
         logger.warning(f"Failed to pull image for task. We're going to proceed anyway, but you might experience issues: {e}")
