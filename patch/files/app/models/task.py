@@ -747,7 +747,7 @@ class Task(models.Model):
                     images = [image for image in images if os.path.exists(image)]
                     i2 = len(images)
                     if i2 < i1:
-                        logger.warning(f"Some images not found! uploaded: {i1} > found: {i2}}!")
+                        logger.warning(f"Some images not found! uploaded: {i1} > found: {i2}!")
 
                     # Track upload progress, but limit the number of DB updates
                     # to every 2 seconds (and always record the 100% progress)
