@@ -8,9 +8,9 @@
 FILELIST="nginx/nginx.conf.template
 app/models/task.py
 app/static/app/js/components/NewTaskPanel.jsx
+package.json
 "
 #requirements.txt
-#package.json
 #nginx/proxy.conf
 
 #Default is to assume reference WebODM install and asdc-init dir both same dir
