@@ -3,13 +3,7 @@
 # Applies the patch files on webapp / worker container
 
 echo Running patch on $HOSTNAME
-if [ "$WO_HOST" = "dev.asdc.cloud.edu.au" ]; then
-  cp -R /webodm/app/media/patch/development/* /webodm/
-fi
-if [ "$WO_HOST" = "asdc.cloud.edu.au" ]; then
-  #INSTALL PATCHED FILES IN POD
-  cp -R /webodm/app/media/patch/production/* /webodm/
-fi
+cp -R /webodm/app/media/patch/files/* /webodm/
 
 #Update everything
 pip install -r requirements.txt
