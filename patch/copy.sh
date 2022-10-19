@@ -5,7 +5,8 @@
 # When finished, commit/push to repo and run ./install.sh to restart server
 
 #Files to copy from local WebODM
-FILELIST="app/api/imageuploads.py"
+FILELIST=""
+#app/api/imageuploads.py"
 #app/api/tasks.py
 #app/models/task.py"
 
