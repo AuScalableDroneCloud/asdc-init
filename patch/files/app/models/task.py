@@ -885,14 +885,14 @@ class Task(models.Model):
                     self.processing_time = info.processing_time
                     self.status = info.status.value
 
-                    if len(info.output) > 0:
-                        #Disabling this for debugging
-                        #self.console_output += "\n".join(info.output) + '\n'
-                        with open(self.assets_path("console.txt"), 'w') as f:
-                            f.write(self.console_output + "\n".join(info.output) + '\n')
-
                     # Update running progress
+                    last_progress = self.running_progress
                     self.running_progress = (info.progress / 100.0) * self.TASK_PROGRESS_LAST_VALUE
+
+                    if len(info.output) > 0:
+                        #When debug fix enabled, only update the db field when progress changes
+                        if last_progress != self.running_progress or not 'FIX_CONSOLE_DB' in os.environ:
+                            self.console_output += "\n".join(info.output) + '\n'
 
                     if info.last_error != "":
                         self.last_error = info.last_error
@@ -956,7 +956,7 @@ class Task(models.Model):
                             self.save()
                     else:
                         # Still waiting...
-                        logger.info("Saving... (QUEUED)")
+                        logger.info("Saving... (RUNNING,QUEUED)")
                         #Do we need to save if no change??
                         self.save()
 
