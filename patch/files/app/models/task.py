@@ -888,7 +888,7 @@ class Task(models.Model):
                     if len(info.output) > 0:
                         #Disabling this for debugging
                         #self.console_output += "\n".join(info.output) + '\n'
-                        with open(self.task_path("console.txt", 'w')) as f:
+                        with open(self.assets_path("console.txt"), 'w') as f:
                             f.write(self.console_output + "\n".join(info.output) + '\n')
 
                     # Update running progress
