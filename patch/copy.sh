@@ -5,11 +5,8 @@
 # When finished, commit/push to repo and run ./install.sh to restart server
 
 #Files to copy from local WebODM
-FILELIST="nginx/nginx.conf.template
-app/models/task.py
-app/static/app/js/components/NewTaskPanel.jsx
-package.json
-"
+FILELIST="app/models/task.py"
+#nginx/nginx.conf.template
 #requirements.txt
 #nginx/proxy.conf
 
