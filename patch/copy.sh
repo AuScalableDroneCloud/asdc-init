@@ -18,10 +18,7 @@ WEBODMPATH=$(pwd)/WebODM
 cd -
 
 cd $BASEPATH/asdc-init/patch/
-PATCHDIR=./development
-if [ "$ASDC_ENV" = "PRODUCTION" ]; then
-  PATCHDIR=./production
-fi
+PATCHDIR=./files
 #Remove current patch files
 rm -rf $PATCHDIR
 mkdir $PATCHDIR
