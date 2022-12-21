@@ -19,7 +19,7 @@ do
 done
 }
 
-cd ../../DronesVL
+cd $HOME/Sync/ASDC/DronesVL
 source settings.env
 cd -
 
