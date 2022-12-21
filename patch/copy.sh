@@ -5,9 +5,7 @@
 # When finished, commit/push to repo and run ./install.sh to restart server
 
 #Files to copy from local WebODM
-FILELIST="app/models/task.py
-app/api/tasks.py
-app/static/app/js/components/TaskListItem.jsx"
+FILELIST=""
 
 #Default is to assume reference WebODM install and asdc-init dir both same dir
 #and script is run from patch subdir
