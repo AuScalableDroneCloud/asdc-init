@@ -1,5 +1,9 @@
 #!/bin/bash
 /webodm/wait-for-postgres.sh db
+
+echo "Removing backups older than 30 days..."
+find /webodm/app/store/backups -type f -mtime +30 -delete
+
 TS=$(date "+%Y%m%d-%H%M")
 echo "Begin backup loop";
 while :;

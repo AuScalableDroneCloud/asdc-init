@@ -3,7 +3,9 @@
 # files from this repository ./patch/files
 
 #Default asdc-init and DronesVL dir both in parent dir
-
+#TODO: run on each replica
+#NOTE: patch doesn't seem to be applied correctly with this script,
+#might be better to just delete pods as restart is quicker now anyway with nginx-ingress
 function exec_k8s()
 {
 #Runs kubectl exec in a loop until it succeeds or 10 attempts
