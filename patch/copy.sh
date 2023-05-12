@@ -5,16 +5,7 @@
 # When finished, commit/push to repo and run ./install.sh to restart server
 
 #Files to copy from local WebODM
-FILELIST=""
-#app/api/imageuploads.py"
-#app/api/tasks.py
-#app/models/task.py"
-
-#app/static/app/js/components/NewTaskPanel.jsx
-#package.json
-
-#requirements.txt
-#nginx/proxy.conf
+FILELIST="app/models/task.py"
 
 #Default is to assume reference WebODM install and asdc-init dir both same dir
 #and script is run from patch subdir
