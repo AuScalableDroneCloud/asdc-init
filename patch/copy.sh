@@ -5,7 +5,7 @@
 # When finished, commit/push to repo and run ./install.sh to restart server
 
 #Files to copy from local WebODM
-FILELIST="app/models/task.py"
+FILELIST="" #app/models/task.py"
 
 #Default is to assume reference WebODM install and asdc-init dir both same dir
 #and script is run from patch subdir
