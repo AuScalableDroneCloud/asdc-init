@@ -7,15 +7,21 @@ find /webodm/app/store/backups -type f -mtime +30 -delete
 echo "Begin backup loop";
 while :;
 do 
-  echo "Backing up database..."
-  TS=$(date "+%Y%m%d-%H%M")
+  TS=$(date "+%Y%m%d-%H")
   fn=webodm_db_$TS.dump
-  pg_dump -h db -U postgres -F c webodm_dev > webodm_db_latest.dump
-  mkdir -p app/store/backups
-  cp --no-preserve=ownership,timestamps webodm_db_latest.dump /webodm/app/store/backups/$fn
-  #ln -s /webodm/app/store/backups/$fn /webodm/app/media/webodm_db_latest.dump
+  if [ ! -f /webodm/app/store/backups/$fn ] && [ ! -f webodm_db_latest.dump ];
+  then
+    echo "Backing up database..."
+    pg_dump -h db -U postgres -F c webodm_dev > webodm_db_latest.dump
+    mkdir -p app/store/backups
+    cp --no-preserve=ownership,timestamps webodm_db_latest.dump /webodm/app/store/backups/$fn
+    rm webodm_db_latest.dump
+    #ln -s /webodm/app/store/backups/$fn /webodm/app/media/webodm_db_latest.dump
+  else
+    echo "Skip backup, already in progress"
+  fi
 
-  #echo "Sleeping 8 hours..."
+  echo "Sleeping 8 hours..."
   sleep 28800;
 
   #Do a filesystem access check - to compare output with livenessprobe that is failing
