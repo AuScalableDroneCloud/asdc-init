@@ -1,18 +1,20 @@
 #!/bin/bash
 /webodm/wait-for-postgres.sh db
 
-echo "Removing backups older than 30 days..."
-find /webodm/app/store/backups -type f -mtime +30 -delete
-
 echo "Begin backup loop";
 while :;
 do 
+  echo "Removing backups older than 30 days..."
+  find /webodm/app/store/backups -type f -mtime +30 -delete
+
   TS=$(date "+%Y%m%d-%H")
   fn=webodm_db_$TS.dump
   if [ ! -f /webodm/app/store/backups/$fn ] && [ ! -f webodm_db_latest.dump ];
   then
     echo "Backing up database..."
     pg_dump -h db -U postgres -F c webodm_dev > webodm_db_latest.dump
+    #Restore command
+    #pg_restore -d webodm_dev /webodm/app/store/backups/$fn -c -U postgres
     mkdir -p app/store/backups
     cp --no-preserve=ownership,timestamps webodm_db_latest.dump /webodm/app/store/backups/$fn
     rm webodm_db_latest.dump
